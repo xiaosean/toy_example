@@ -16,6 +16,7 @@ line_bot_api = LineBotApi('YOUR_CHANNEL_ACCESS_TOKEN')
 handler = WebhookHandler('YOUR_CHANNEL_SECRET')
 
 
+
 @app.route("/callback", methods=['POST'])
 def callback():
     # get X-Line-Signature header value
@@ -44,7 +45,10 @@ def handle_message(event):
             TextSendMessage(text="機器人並不支援該指令"))
             
     if event.message.text == "hello":
-        return hello()
+        reply_text = hello()
+        line_bot_api.reply_message(
+            event.reply_token,
+            TextSendMessage(text=reply_text))
     else:
         line_bot_api.reply_message(
             event.reply_token,
